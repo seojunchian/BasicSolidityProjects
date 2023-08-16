@@ -1,0 +1,45 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract register {
+
+    // student's info
+    struct StudentInfo {
+        string name;
+        uint schoolNumber;
+        string className;
+    }
+
+    StudentInfo[] studentInfo;
+
+    mapping (uint => StudentInfo) getInfoWithSchoolNumber;
+
+    // register students
+    function registerStudent(uint _schoolNumber, string memory _name, string memory _className) public {
+        studentInfo.push(StudentInfo(_name, _schoolNumber, _className));
+        getInfoWithSchoolNumber[_schoolNumber] = studentInfo[_schoolNumber];
+    }
+
+    // view the student's info
+    function viewStudent(uint _schoolNumber) public view returns(StudentInfo memory) {
+        return getInfoWithSchoolNumber[_schoolNumber];
+    }
+
+    function changeTheName(uint _schoolNumber, string memory newName) public {
+        getInfoWithSchoolNumber[_schoolNumber].name = newName;
+    }
+
+    function changeTheSchoolNumber(uint _schoolNumber, uint newSchoolNumber) public {
+        getInfoWithSchoolNumber[_schoolNumber].schoolNumber = newSchoolNumber;
+    }
+
+    function changeTheClassName(uint _schoolNumber, string memory newClassName) public {
+        getInfoWithSchoolNumber[_schoolNumber].className = newClassName;
+    }
+
+    // delete student
+    function deleteStudent(uint _schoolNumber) public {
+        delete getInfoWithSchoolNumber[_schoolNumber];
+    }
+
+}
