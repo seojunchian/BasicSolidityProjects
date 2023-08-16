@@ -1,0 +1,45 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract toDoList {
+
+    // identify the list
+    struct Tasks {
+        string caption;
+        string task;
+        bool isDone;
+    }
+
+    // find address's list
+    mapping (address => mapping (uint => Tasks[])) findingList;
+
+    // add to the list
+    function addItem (address _address, uint listNumber, string memory _caption,string memory _task, bool _isDone) public {
+        findingList[_address][listNumber-1].push(Tasks(_caption, _task, _isDone));
+    }
+
+    // view the list
+    function viewTheList(address _address, uint listNumber) public view returns(Tasks[] memory) {
+        return findingList[_address][listNumber-1];
+    }
+
+    // edit a list's task
+    function editTheCaption(address _address, uint listNumber, string memory newCaption) public view {
+        newCaption = findingList[_address][listNumber-1][0].caption;
+    }
+
+    // edit a list's task
+    function editTheTask(address _address, uint listNumber, string memory newTask) public view {
+        newTask = findingList[_address][listNumber-1][0].task;
+    }
+
+    // edit a list is completed or not
+    function editTheCaption(address _address, uint listNumber, bool newIsDone) public view {
+        newIsDone = findingList[_address][listNumber-1][0].isDone;
+    }
+
+    function deleteAList(address _address, uint listNumber) public {
+        delete findingList[_address][listNumber-1];
+    }
+
+}
